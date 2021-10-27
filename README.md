@@ -50,5 +50,10 @@ docker exec -it 20211027_nestjs_typeorm_server sh
 // dbコンテナへログイン
 docker exec -it 20211027_nestjs_typeorm_db /bin/bash
 
-
 ```
+
+### nest コマンド
+
+- CRUD Generator
+  nest g resource ドメイン名
+  https://docs.nestjs.com/recipes/crud-generator

@@ -4,9 +4,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 /* services */
 import { AppService } from './app.service';
-import { TodoController } from './todo/todo.controller';
-import { TodoService } from './todo/todo.service';
-import { TodoModule } from './todo/todo.module';
+import { TodosController } from './todos/todos.controller';
+import { TodosService } from './todos/todos.service';
+import { TodosModule } from './todos/todos.module';
 
 @Module({
   imports: [
@@ -14,8 +14,10 @@ import { TodoModule } from './todo/todo.module';
     //   type: 'mysql',
     //   host: '',
     // }),
-  TodoModule],
-  controllers: [AppController, TodoController],
-  providers: [AppService, TodoService],
+    TodosModule,
+    TodosModule,
+  ],
+  controllers: [AppController, TodosController],
+  providers: [AppService, TodosService],
 })
 export class AppModule {}
