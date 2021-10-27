@@ -7,7 +7,7 @@ module.exports = {
   database: process.env.MYSQL_DATABASE,
   entities: ['dist/**/*.entity.{js,ts}'],
   migrations: ['dist/migrations/*.{js,ts}'],
-  seeds: ['dist/migrations/seeders/*.seed.{js,ts}'],
+  seeds: ['dist/migrations/seeds/*.seed.{js,ts}'],
   factories: ['dist/migrations/factories/*.factory.{js,ts}'],
   cli: {
     migrationsDir: 'dist/migrations',
