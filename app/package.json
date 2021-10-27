@@ -18,21 +18,36 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js --config ormconfig.local.js",
+    "typeorm:migration:generate": "npm run typeorm migration:generate -- --name",
+    "typeorm:migration:create": "npm run typeorm migration:create -- --name",
+    "typeorm:migration:run": "npm run typeorm migration:run",
+    "typeorm:migration:revert": "npm run typeorm migration:revert",
+    "typeorm:seed": "ts-node ./node_modules/typeorm-seeding/dist/cli.js --configName ormconfig.local.js",
+    "typeorm:seed:run": "npm run typeorm:seed seed",
+    "typeorm:schema:drop": "ts-node ./node_modules/typeorm/cli.js schema:drop"
   },
   "dependencies": {
     "@nestjs/common": "^7.6.15",
     "@nestjs/core": "^7.6.15",
+    "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^7.6.15",
+    "@nestjs/typeorm": "^8.0.2",
+    "faker": "^5.5.3",
+    "mysql2": "^2.3.2",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^6.6.6"
+    "rxjs": "^6.6.6",
+    "typeorm": "^0.2.38",
+    "typeorm-seeding": "^1.6.1"
   },
   "devDependencies": {
     "@nestjs/cli": "^7.6.0",
     "@nestjs/schematics": "^7.3.0",
     "@nestjs/testing": "^7.6.15",
     "@types/express": "^4.17.11",
+    "@types/faker": "^5.5.9",
     "@types/jest": "^26.0.22",
     "@types/node": "^14.14.36",
     "@types/supertest": "^2.0.10",

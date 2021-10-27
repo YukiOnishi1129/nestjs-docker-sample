@@ -17,6 +17,13 @@ services:
       - 4000:4000
     security_opt:
       - seccomp:unconfined
+    environment:
+      - MYSQL_HOST=${MYSQL_HOST}
+      - MYSQL_PORT=${MYSQL_PORT}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
 
   db:
     container_name: 20211027_nestjs_typeorm_db
@@ -32,7 +39,7 @@ services:
       - mysql_data:/var/lib/mysql
       - ./mysql/mysql.cnf:/etc/mysql/conf.d/mysql.cnf
     ports:
-      - 3306:3306
+      - ${MYSQL_PORT}:3306
 
 volumes:
   mysql_data:
