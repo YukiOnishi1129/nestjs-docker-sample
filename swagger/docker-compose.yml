@@ -1,0 +1,20 @@
+version: "3.8"
+services:
+  swagger-ui-watcher:
+    build: ./
+    image: swagger-ui-watcher
+    container_name: 20211027-nest-swagger-ui-watcher
+    ports:
+      - 8000:8000
+    volumes:
+      - ../app/swagger:/swagger
+    command: /swagger/swagger-spec.yaml
+
+  swagger-api:
+    image: stoplight/prism:3
+    container_name: "20211027-nest-swagger-api"
+    ports:
+      - 4010:4010
+    command: mock -h 0.0.0.0 /swagger-spec.yaml
+    volumes:
+      - ../app/swagger/swagger-spec.yaml:/swagger-spec.yaml

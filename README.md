@@ -26,6 +26,32 @@ NestJS Docker 環境サンプル (TypeORM)
   mysql -u root -p
   ※パスワードは「pass」を記載
 
+## swagger モックサーバーの立ち上げ
+
+1. swagger ディレクトリへ移動
+
+cd swagger
+
+2. ビルド
+   docker-compose build
+
+3. コンテナ起動
+   docker-compose up
+
+4. アクセス
+
+- swagger ui
+
+  - http://localhost:8000
+
+- swagger api (例)
+  - http://localhost:4010/api/todos
+
+#### swagger の yaml ファイル
+
+- app コンテナで yarn start されるたびに、app/swagger/swagger-spec.yaml に最新のファイルが吐き出される。
+  - 上記の swagger のコンテナは swagger-spec.yaml ファイルをもとに swagger-ui やモックサーバーを立ち上げている
+
 ## docker コマンド
 
 ```
@@ -55,5 +81,9 @@ docker exec -it 20211027_nestjs_typeorm_db /bin/bash
 ### nest コマンド
 
 - CRUD Generator
+
+  ```
   nest g resource ドメイン名
+  ```
+
   https://docs.nestjs.com/recipes/crud-generator

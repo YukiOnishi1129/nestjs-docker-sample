@@ -1,19 +1,34 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+/* dto */
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
+/* repositories */
+import { TodoRepository } from './repositories/todo.repository';
 
 @Injectable()
 export class TodosService {
-  create(createTodoDto: CreateTodoDto) {
-    return 'This action adds a new todo';
+  constructor(
+    @InjectRepository(TodoRepository)
+    private todoRepository: TodoRepository,
+  ) {}
+
+  async create(createTodoDto: CreateTodoDto) {
+    return await this.todoRepository.createTodo(createTodoDto);
   }
 
-  findAll() {
-    return `This action returns all todos`;
+  async findAll() {
+    return await this.todoRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} todo`;
+  async findOne(id: number) {
+    const todo = await this.todoRepository.findOne({
+      where: { id },
+    });
+    if (!todo) {
+      throw new NotFoundException('そのタスクは存在しません。');
+    }
+    return todo;
   }
 
   update(id: number, updateTodoDto: UpdateTodoDto) {
