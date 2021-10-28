@@ -21,10 +21,10 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
 
   // JSON
-  fs.writeFileSync(
-    './swagger/swagger-spec.json',
-    JSON.stringify(document, undefined, 2),
-  );
+  // fs.writeFileSync(
+  //   './swagger/swagger-spec.json',
+  //   JSON.stringify(document, undefined, 2),
+  // );
 
   // YAML
   fs.writeFileSync('./swagger/swagger-spec.yaml', dump(document, {}));

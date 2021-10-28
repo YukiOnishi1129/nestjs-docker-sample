@@ -13,7 +13,6 @@
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
-    "start:swagger": "yarn prism mock swagger.json",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -53,7 +52,6 @@
     "typeorm-seeding": "^1.6.1"
   },
   "devDependencies": {
-    "@stoplight/prism-cli": "^4.5.0",
     "@types/express": "^4.17.11",
     "@types/faker": "^5.5.9",
     "@types/jest": "^26.0.22",
