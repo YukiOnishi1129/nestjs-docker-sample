@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import {
   Entity,
   BaseEntity,
@@ -10,18 +11,21 @@ import {
 @Entity({ name: 'todo' })
 export class Todo extends BaseEntity {
   @PrimaryGeneratedColumn()
+  @ApiProperty()
   id!: number;
 
   @Column({
     nullable: false,
     length: 255,
   })
+  @ApiProperty()
   title!: string;
 
   @CreateDateColumn({
     type: 'timestamp',
     default: () => 'CURRENT_TIMESTAMP(6)',
   })
+  @ApiProperty()
   createdAt!: Date;
 
   @UpdateDateColumn({
@@ -29,5 +33,6 @@ export class Todo extends BaseEntity {
     default: () => 'CURRENT_TIMESTAMP(6)',
     onUpdate: 'CURRENT_TIMESTAMP(6)',
   })
+  @ApiProperty()
   updatedAt!: Date;
 }

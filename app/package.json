@@ -38,6 +38,8 @@
     "@nestjs/swagger": "^5.1.4",
     "@nestjs/testing": "^8.1.2",
     "@nestjs/typeorm": "^8.0.2",
+    "class-transformer": "^0.4.0",
+    "class-validator": "^0.13.1",
     "faker": "^5.5.3",
     "mysql2": "^2.3.2",
     "reflect-metadata": "^0.1.13",

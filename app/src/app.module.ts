@@ -9,13 +9,7 @@ import { TodosService } from './todos/todos.service';
 import { TodosModule } from './todos/todos.module';
 
 @Module({
-  imports: [
-    // TypeOrmModule.forRoot({
-    //   type: 'mysql',
-    //   host: '',
-    // }),
-    TodosModule,
-  ],
+  imports: [TypeOrmModule.forRoot(), TodosModule],
   controllers: [AppController],
   providers: [AppService],
 })
