@@ -15,9 +15,8 @@ import { TodosModule } from './todos/todos.module';
     //   host: '',
     // }),
     TodosModule,
-    TodosModule,
   ],
-  controllers: [AppController, TodosController],
-  providers: [AppService, TodosService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
