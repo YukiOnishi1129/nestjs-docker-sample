@@ -1,18 +1,11 @@
-import { Injectable, Post, Body, ValidationPipe } from '@nestjs/common';
-import {
-  ApiTags,
-  ApiBadRequestResponse,
-  ApiConflictResponse,
-  ApiCreatedResponse,
-  ApiInternalServerErrorResponse,
-} from '@nestjs/swagger';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+/* dto */
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
 /* repositories */
 import { TodoRepository } from './repositories/todo.repository';
 
-@ApiTags('todos')
 @Injectable()
 export class TodosService {
   constructor(
@@ -20,23 +13,22 @@ export class TodosService {
     private todoRepository: TodoRepository,
   ) {}
 
-  @Post()
-  @ApiBadRequestResponse({
-    description: '入力値のフォーマットエラー',
-  })
-  @ApiInternalServerErrorResponse({
-    description: 'DBサーバ接続エラー',
-  })
-  async create(@Body(ValidationPipe) createTodoDto: CreateTodoDto) {
-    await this.todoRepository.createTodo(createTodoDto);
+  async create(createTodoDto: CreateTodoDto) {
+    return await this.todoRepository.createTodo(createTodoDto);
   }
 
-  findAll() {
-    return `This action returns all todos`;
+  async findAll() {
+    return await this.todoRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} todo`;
+  async findOne(id: number) {
+    const todo = await this.todoRepository.findOne({
+      where: { id },
+    });
+    if (!todo) {
+      throw new NotFoundException('そのタスクは存在しません。');
+    }
+    return todo;
   }
 
   update(id: number, updateTodoDto: UpdateTodoDto) {

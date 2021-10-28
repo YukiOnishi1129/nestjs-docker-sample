@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import * as fs from 'fs';
 import { dump } from 'js-yaml';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { AppModule } from './app.module';
+import { AppModule } from '../src/app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -31,6 +31,6 @@ async function bootstrap() {
 
   SwaggerModule.setup('swagger', app, document);
 
-  await app.listen(4000);
+  await app.listen(8081);
 }
 bootstrap();

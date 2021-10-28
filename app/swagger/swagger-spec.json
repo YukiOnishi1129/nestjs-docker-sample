@@ -1,0 +1,290 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/api": {
+      "get": {
+        "operationId": "AppController_getHello",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/todos": {
+      "post": {
+        "operationId": "TodosController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTodoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "タスク作成完了",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Todo"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "入力値のフォーマットエラー"
+          },
+          "500": {
+            "description": "DBサーバ接続エラー"
+          }
+        },
+        "tags": [
+          "todos"
+        ]
+      },
+      "get": {
+        "operationId": "TodosController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "タスク一覧取得完了",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetTodoListResponse"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "todos"
+        ]
+      }
+    },
+    "/api/todos/{id}": {
+      "get": {
+        "operationId": "TodosController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "タスク単体取得完了",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetTodoResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "指定のタスクが存在しない"
+          }
+        },
+        "tags": [
+          "todos"
+        ]
+      },
+      "patch": {
+        "operationId": "TodosController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTodoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "todos"
+        ]
+      },
+      "delete": {
+        "operationId": "TodosController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "todos"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "API description",
+    "description": "",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "schemas": {
+      "CreateTodoDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "サンプル",
+            "minLength": 2,
+            "maxLength": 25
+          }
+        },
+        "required": [
+          "title"
+        ]
+      },
+      "Todo": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "title": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "GetTodoListResponse": {
+        "type": "object",
+        "properties": {
+          "todos": {
+            "example": [
+              {
+                "id": 1,
+                "title": "タスク1",
+                "createdAt": "2021-10-28T08:38:14.237Z",
+                "updatedAt": "2021-10-28T08:38:14.237Z"
+              },
+              {
+                "id": 2,
+                "title": "タスク2",
+                "createdAt": "2021-10-28T08:38:14.237Z",
+                "updatedAt": "2021-10-28T08:38:14.237Z"
+              },
+              {
+                "id": 3,
+                "title": "タスク3",
+                "createdAt": "2021-10-28T08:38:14.237Z",
+                "updatedAt": "2021-10-28T08:38:14.237Z"
+              }
+            ],
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Todo"
+            }
+          }
+        },
+        "required": [
+          "todos"
+        ]
+      },
+      "GetTodoResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": 1
+          },
+          "title": {
+            "type": "string",
+            "example": "サンプル",
+            "minLength": 2,
+            "maxLength": 25
+          },
+          "createdAt": {
+            "type": "string",
+            "example": "2021-10-28T08:38:14.237Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "example": "2021-10-28T08:38:14.237Z"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "UpdateTodoDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "example": 1
+          },
+          "title": {
+            "type": "string",
+            "example": "サンプル",
+            "minLength": 2,
+            "maxLength": 25
+          }
+        },
+        "required": [
+          "id",
+          "title"
+        ]
+      }
+    }
+  }
+}

@@ -15,6 +15,8 @@ export class TodoRepository extends Repository<Todo> {
 
     try {
       await todo.save();
+
+      return todo;
     } catch (err) {
       throw new InternalServerErrorException();
     }
