@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+/* services */
 import { TodosService } from './todos.service';
+/* controllers */
 import { TodosController } from './todos.controller';
 /* repositories */
 import { TodoRepository } from './repositories/todo.repository';

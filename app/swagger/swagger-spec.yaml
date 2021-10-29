@@ -104,23 +104,32 @@ paths:
       tags: *ref_0
   /api/users:
     post:
-      operationId: UsersController_create
+      operationId: UsersController_signup
       parameters: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateUserDto'
+              $ref: '#/components/schemas/SignUpUserDto'
       responses:
         '201':
-          description: ''
+          description: ユーザー登録完了
+        '400':
+          description: 入力値のフォーマットエラー
+        '409':
+          description: メールアドレスの重複エラー
+        '500':
+          description: DBサーバ接続エラー
+      tags: &ref_1
+        - users
     get:
       operationId: UsersController_findAll
       parameters: []
       responses:
         '200':
           description: ''
+      tags: *ref_1
   /api/users/{id}:
     get:
       operationId: UsersController_findOne
@@ -133,6 +142,7 @@ paths:
       responses:
         '200':
           description: ''
+      tags: *ref_1
     patch:
       operationId: UsersController_update
       parameters:
@@ -150,6 +160,7 @@ paths:
       responses:
         '200':
           description: ''
+      tags: *ref_1
     delete:
       operationId: UsersController_remove
       parameters:
@@ -161,6 +172,7 @@ paths:
       responses:
         '200':
           description: ''
+      tags: *ref_1
 info:
   title: API description
   description: ''
@@ -317,9 +329,20 @@ components:
         - title
         - createdAt
         - updatedAt
-    CreateUserDto:
+    SignUpUserDto:
       type: object
-      properties: {}
+      properties:
+        email:
+          type: string
+          example: test1@gmail.com
+        password:
+          type: string
+          example: hogehoge
+          minLength: 6
+          maxLength: 25
+      required:
+        - email
+        - password
     UpdateUserDto:
       type: object
       properties: {}

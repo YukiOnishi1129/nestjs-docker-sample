@@ -6,18 +6,44 @@ import {
   Patch,
   Param,
   Delete,
+  ValidationPipe,
 } from '@nestjs/common';
+import {
+  ApiTags,
+  ApiBadRequestResponse,
+  ApiOkResponse,
+  ApiNotFoundResponse,
+  ApiConflictResponse,
+  ApiCreatedResponse,
+  ApiInternalServerErrorResponse,
+} from '@nestjs/swagger';
+/* services */
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
+/* dto */
 import { UpdateUserDto } from './dto/update-user.dto';
+import { SignUpUserDto } from './dto/sign-up-user.dto';
+import { timingSafeEqual } from 'crypto';
 
+@ApiTags('users')
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+  @ApiCreatedResponse({
+    description: 'ユーザー登録完了',
+  })
+  @ApiBadRequestResponse({
+    description: '入力値のフォーマットエラー',
+  })
+  @ApiConflictResponse({
+    description: 'メールアドレスの重複エラー',
+  })
+  @ApiInternalServerErrorResponse({
+    description: 'DBサーバ接続エラー',
+  })
+  async signup(@Body(ValidationPipe) signUpUserDto: SignUpUserDto) {
+    await this.usersService.create(signUpUserDto);
   }
 
   @Get()
