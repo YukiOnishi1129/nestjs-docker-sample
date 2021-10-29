@@ -13,7 +13,7 @@ import { JwtStrategy } from './strategy/jwt.strategy';
 @Module({
   imports: [
     JwtModule.register({
-      secret: process.env.JWT_SECRET,
+      secret: `${process.env.JWT_SECRET}`, // JWTトークンは文字列にしないとエラー
       signOptions: { expiresIn: '1h' },
     }),
     TypeOrmModule.forFeature([UserRepository]),

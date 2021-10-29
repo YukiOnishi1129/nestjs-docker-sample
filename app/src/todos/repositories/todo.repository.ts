@@ -3,7 +3,9 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { EntityRepository, Repository } from 'typeorm';
+/* entities */
 import { Todo } from '../entities/todo.entity';
+import { User } from '../../users/entities/user.entity';
 /* dto */
 import { CreateTodoDto } from '../dto/create-todo.dto';
 
@@ -26,14 +28,17 @@ export class TodoRepository extends Repository<Todo> {
   /**
    * 新規登録
    * @param {CreateTodoDto}
+   * @param {User} user
    * @returns
    */
-  async createTodo({ title }: CreateTodoDto) {
+  async createTodo({ title }: CreateTodoDto, user: User) {
     const todo = new Todo();
     todo.title = title;
+    todo.userId = user.id;
 
     try {
       await todo.save();
+      delete todo.user;
 
       return todo;
     } catch (err) {

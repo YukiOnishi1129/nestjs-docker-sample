@@ -43,6 +43,14 @@ export class CreateTodoResponseDto {
   title: string;
 
   @ApiProperty({
+    example: 1,
+    type: String,
+  })
+  @IsNumber()
+  @IsNotEmpty()
+  userId: number;
+
+  @ApiProperty({
     example: '2021-10-28T08:38:14.237Z',
     type: String,
   })

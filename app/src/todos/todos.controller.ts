@@ -8,15 +8,19 @@ import {
   Delete,
   ValidationPipe,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import {
   ApiTags,
+  ApiBearerAuth,
   ApiBadRequestResponse,
   ApiOkResponse,
   ApiNotFoundResponse,
   ApiCreatedResponse,
   ApiInternalServerErrorResponse,
 } from '@nestjs/swagger';
+import { GetUser } from '../users/get-user.decorator';
 /* services */
 import { TodosService } from './todos.service';
 /* dto */
@@ -29,9 +33,12 @@ import {
 import { RemoveTodoResponseDto } from './dto/remove-todo.dto';
 /* entities */
 import { Todo } from './entities/todo.entity';
+import { User } from '../users/entities/user.entity';
 
 @ApiTags('todos')
 @Controller('todos')
+@UseGuards(AuthGuard('jwt'))
+@ApiBearerAuth()
 export class TodosController {
   constructor(private readonly todosService: TodosService) {}
 
@@ -46,8 +53,11 @@ export class TodosController {
     description: 'タスク作成完了',
     type: CreateTodoResponseDto,
   })
-  create(@Body(ValidationPipe) createTodoDto: CreateTodoDto): Promise<Todo> {
-    return this.todosService.create(createTodoDto);
+  create(
+    @Body(ValidationPipe) createTodoDto: CreateTodoDto,
+    @GetUser() user: User,
+  ): Promise<Todo> {
+    return this.todosService.create(createTodoDto, user);
   }
 
   @Get()

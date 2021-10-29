@@ -30,6 +30,8 @@ paths:
           description: DBサーバ接続エラー
       tags: &ref_0
         - todos
+      security: &ref_1
+        - bearer: []
     get:
       operationId: TodosController_findAll
       parameters: []
@@ -41,6 +43,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/FindTodoListResponseDto'
       tags: *ref_0
+      security: *ref_1
   /api/todos/{id}:
     get:
       operationId: TodosController_findOne
@@ -60,6 +63,7 @@ paths:
         '404':
           description: 指定のタスクが存在しない
       tags: *ref_0
+      security: *ref_1
     patch:
       operationId: TodosController_update
       parameters:
@@ -84,6 +88,7 @@ paths:
         '404':
           description: 指定のタスクが存在しない
       tags: *ref_0
+      security: *ref_1
     delete:
       operationId: TodosController_remove
       parameters:
@@ -102,6 +107,7 @@ paths:
         '404':
           description: 指定のタスクが存在しない
       tags: *ref_0
+      security: *ref_1
   /api/users/sign_up:
     post:
       operationId: UsersController_signUp
@@ -121,7 +127,7 @@ paths:
           description: メールアドレスの重複エラー
         '500':
           description: DBサーバ接続エラー
-      tags: &ref_1
+      tags: &ref_2
         - users
   /api/users/sign_in:
     post:
@@ -142,7 +148,7 @@ paths:
                 type: string
         '401':
           description: メールアドレスまたはパスワードが異なることによるログインエラー
-      tags: *ref_1
+      tags: *ref_2
   /api/users:
     get:
       operationId: UsersController_findAll
@@ -150,7 +156,7 @@ paths:
       responses:
         '200':
           description: ''
-      tags: *ref_1
+      tags: *ref_2
   /api/users/{id}:
     get:
       operationId: UsersController_findOne
@@ -163,7 +169,7 @@ paths:
       responses:
         '200':
           description: ''
-      tags: *ref_1
+      tags: *ref_2
     patch:
       operationId: UsersController_update
       parameters:
@@ -181,7 +187,7 @@ paths:
       responses:
         '200':
           description: ''
-      tags: *ref_1
+      tags: *ref_2
     delete:
       operationId: UsersController_remove
       parameters:
@@ -193,7 +199,7 @@ paths:
       responses:
         '200':
           description: ''
-      tags: *ref_1
+      tags: *ref_2
 info:
   title: API description
   description: ''
@@ -202,6 +208,11 @@ info:
 tags: []
 servers: []
 components:
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
   schemas:
     CreateTodoDto:
       type: object
@@ -224,6 +235,9 @@ components:
           example: サンプル
           minLength: 2
           maxLength: 25
+        userId:
+          type: string
+          example: 1
         createdAt:
           type: string
           example: '2021-10-28T08:38:14.237Z'
@@ -233,6 +247,7 @@ components:
       required:
         - id
         - title
+        - userId
         - createdAt
         - updatedAt
     Todo:
@@ -263,14 +278,17 @@ components:
           example:
             - id: 1
               title: タスク1
+              userId: 1
               createdAt: '2021-10-28T08:38:14.237Z'
               updatedAt: '2021-10-28T08:38:14.237Z'
             - id: 2
               title: タスク2
+              userId: 1
               createdAt: '2021-10-28T08:38:14.237Z'
               updatedAt: '2021-10-28T08:38:14.237Z'
             - id: 3
               title: タスク3
+              userId: 1
               createdAt: '2021-10-28T08:38:14.237Z'
               updatedAt: '2021-10-28T08:38:14.237Z'
           type: array
@@ -289,6 +307,9 @@ components:
           example: サンプル
           minLength: 2
           maxLength: 25
+        userId:
+          type: string
+          example: 1
         createdAt:
           type: string
           example: '2021-10-28T08:38:14.237Z'
@@ -298,6 +319,7 @@ components:
       required:
         - id
         - title
+        - userId
         - createdAt
         - updatedAt
     UpdateTodoDto:
@@ -321,6 +343,9 @@ components:
           example: サンプル
           minLength: 2
           maxLength: 25
+        userId:
+          type: string
+          example: 1
         createdAt:
           type: string
           example: '2021-10-28T08:38:14.237Z'
@@ -330,6 +355,7 @@ components:
       required:
         - id
         - title
+        - userId
         - createdAt
         - updatedAt
     RemoveTodoResponseDto:
@@ -340,6 +366,9 @@ components:
           example: サンプル
           minLength: 2
           maxLength: 25
+        userId:
+          type: string
+          example: 1
         createdAt:
           type: string
           example: '2021-10-28T08:38:14.237Z'
@@ -348,6 +377,7 @@ components:
           example: '2021-10-28T08:38:14.237Z'
       required:
         - title
+        - userId
         - createdAt
         - updatedAt
     SignUpUserDto:

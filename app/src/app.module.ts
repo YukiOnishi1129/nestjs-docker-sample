@@ -3,6 +3,7 @@
  * @package src
  */
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 /* controllers */
 import { AppController } from './app.controller';
@@ -13,7 +14,12 @@ import { TodosModule } from './todos/todos.module';
 import { UsersModule } from './users/users.module';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(), TodosModule, UsersModule],
+  imports: [
+    TypeOrmModule.forRoot(),
+    ConfigModule.forRoot({ isGlobal: true }),
+    TodosModule,
+    UsersModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
