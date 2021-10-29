@@ -11,7 +11,6 @@ import {
 } from '@nestjs/common';
 import {
   ApiTags,
-  ApiResponse,
   ApiBadRequestResponse,
   ApiOkResponse,
   ApiNotFoundResponse,
@@ -21,9 +20,13 @@ import {
 /* services */
 import { TodosService } from './todos.service';
 /* dto */
-import { CreateTodoDto } from './dto/create-todo.dto';
-import { UpdateTodoDto } from './dto/update-todo.dto';
-import { GetTodoResponse, GetTodoListResponse } from './dto/find-todo.dto';
+import { CreateTodoDto, CreateTodoResponseDto } from './dto/create-todo.dto';
+import { UpdateTodoDto, UpdateTodoResponseDto } from './dto/update-todo.dto';
+import {
+  FindTodoListResponseDto,
+  FindTodoResponseDto,
+} from './dto/find-todo.dto';
+import { RemoveTodoResponseDto } from './dto/remove-todo.dto';
 /* entities */
 import { Todo } from './entities/todo.entity';
 
@@ -41,41 +44,58 @@ export class TodosController {
   })
   @ApiCreatedResponse({
     description: 'タスク作成完了',
-    type: Todo,
+    type: CreateTodoResponseDto,
   })
-  create(@Body(ValidationPipe) createTodoDto: CreateTodoDto) {
+  create(@Body(ValidationPipe) createTodoDto: CreateTodoDto): Promise<Todo> {
     return this.todosService.create(createTodoDto);
   }
 
   @Get()
   @ApiOkResponse({
     description: 'タスク一覧取得完了',
-    type: GetTodoListResponse,
+    type: FindTodoListResponseDto,
   })
-  findAll() {
+  findAll(): Promise<Todo[]> {
     return this.todosService.findAll();
   }
 
   @Get(':id')
   @ApiOkResponse({
     description: 'タスク単体取得完了',
-    type: GetTodoResponse,
+    type: FindTodoResponseDto,
   })
   @ApiNotFoundResponse({
     description: '指定のタスクが存在しない',
   })
-  async findOne(@Param('id', ParseIntPipe) id: number) {
+  async findOne(@Param('id', ParseIntPipe) id: number): Promise<Todo> {
     const todo = await this.todosService.findOne(id);
     return todo;
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTodoDto: UpdateTodoDto) {
-    return this.todosService.update(+id, updateTodoDto);
+  @ApiOkResponse({
+    description: 'タスク更新完了',
+    type: UpdateTodoResponseDto,
+  })
+  @ApiNotFoundResponse({
+    description: '指定のタスクが存在しない',
+  })
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body(ValidationPipe) updateTodoDto: UpdateTodoDto,
+  ): Promise<Todo> {
+    return await this.todosService.update(id, updateTodoDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.todosService.remove(+id);
+  @ApiOkResponse({
+    description: 'タスク削除完了',
+    type: RemoveTodoResponseDto,
+  })
+  @ApiNotFoundResponse({
+    description: '指定のタスクが存在しない',
+  })
+  async remove(@Param('id') id: number): Promise<Todo> {
+    return await this.todosService.remove(id);
   }
 }

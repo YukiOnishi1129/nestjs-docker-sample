@@ -42,24 +42,5 @@ services:
     ports:
       - ${MYSQL_PORT}:3306
 
-  swagger-ui-watcher:
-    build: swagger
-    image: swagger-ui-watcher
-    container_name: swagger-ui-watcher
-    ports:
-      - 8000:8000
-    volumes:
-      - ./app/src/swagger:/swagger
-    command: /app/src/swagger/swagger-spec.yaml
-
-  swagger-api:
-    image: stoplight/prism:3
-    container_name: 'swagger-api'
-    ports:
-      - 4010:4010
-    command: mock -h 0.0.0.0 /swagger-spec.yaml
-    volumes:
-      - ./app/src/swagger/swagger-spec.yaml:/swagger-spec.yaml
-
 volumes:
   mysql_data:

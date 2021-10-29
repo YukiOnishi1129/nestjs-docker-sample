@@ -1,4 +1,3 @@
-import { PartialType } from '@nestjs/mapped-types';
 import {
   IsNotEmpty,
   IsNumber,
@@ -10,9 +9,9 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Todo } from '../entities/todo.entity';
 
 /**
- * GetTodoResponse
+ * FindTodoResponseDto
  */
-export class GetTodoResponse {
+export class FindTodoResponseDto {
   @ApiProperty({
     example: 1,
     type: String,
@@ -51,9 +50,9 @@ export class GetTodoResponse {
 }
 
 /**
- * GetTodoListResponse
+ * FindTodoListResponseDto
  */
-export class GetTodoListResponse {
+export class FindTodoListResponseDto {
   @ApiProperty({
     type: [Todo],
     example: [
