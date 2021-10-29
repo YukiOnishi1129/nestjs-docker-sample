@@ -17,6 +17,11 @@ export class UsersService {
     private readonly jwtSecret: JwtService,
   ) {}
 
+  /**
+   * ログイン
+   * @param {SignInUserDto} signInUserDto
+   * @returns
+   */
   async signIn(signInUserDto: SignInUserDto) {
     const email = await this.userRepository.validatePassword(signInUserDto);
 

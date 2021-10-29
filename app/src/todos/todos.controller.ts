@@ -15,6 +15,7 @@ import {
   ApiTags,
   ApiBearerAuth,
   ApiBadRequestResponse,
+  ApiUnauthorizedResponse,
   ApiOkResponse,
   ApiNotFoundResponse,
   ApiCreatedResponse,
@@ -65,8 +66,15 @@ export class TodosController {
     description: 'タスク一覧取得完了',
     type: FindTodoListResponseDto,
   })
-  findAll(): Promise<Todo[]> {
-    return this.todosService.findAll();
+  @ApiUnauthorizedResponse({
+    description: '認証エラー',
+  })
+  async findAll(): Promise<Todo[]> {
+    const todoList = await this.todosService.findAll();
+    return todoList.map((todo) => {
+      delete todo.user.password;
+      return todo;
+    });
   }
 
   @Get(':id')

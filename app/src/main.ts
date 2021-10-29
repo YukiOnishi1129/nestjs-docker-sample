@@ -17,6 +17,7 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('API description')
     .setVersion('1.0')
+    .addServer('/')
     .addBearerAuth() // swaggerのauthorizeを有効化
     .build();
   const document = SwaggerModule.createDocument(app, config);

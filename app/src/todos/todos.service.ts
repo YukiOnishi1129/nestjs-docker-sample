@@ -30,7 +30,9 @@ export class TodosService {
    * @returns
    */
   async findAll() {
-    return await this.todoRepository.find();
+    return await this.todoRepository.find({
+      relations: ['user'],
+    });
   }
 
   /**

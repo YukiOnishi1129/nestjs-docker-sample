@@ -42,6 +42,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/FindTodoListResponseDto'
+        '401':
+          description: 認証エラー
       tags: *ref_0
       security: *ref_1
   /api/todos/{id}:
@@ -206,7 +208,8 @@ info:
   version: '1.0'
   contact: {}
 tags: []
-servers: []
+servers:
+  - url: /
 components:
   securitySchemes:
     bearer:
