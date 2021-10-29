@@ -23,7 +23,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Todo'
+                $ref: '#/components/schemas/CreateTodoResponseDto'
         '400':
           description: 入力値のフォーマットエラー
         '500':
@@ -109,6 +109,28 @@ components:
           maxLength: 25
       required:
         - title
+    CreateTodoResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 1
+        title:
+          type: string
+          example: サンプル
+          minLength: 2
+          maxLength: 25
+        createdAt:
+          type: string
+          example: '2021-10-28T08:38:14.237Z'
+        updatedAt:
+          type: string
+          example: '2021-10-28T08:38:14.237Z'
+      required:
+        - id
+        - title
+        - createdAt
+        - updatedAt
     Todo:
       type: object
       properties:

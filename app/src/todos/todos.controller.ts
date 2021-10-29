@@ -11,7 +11,6 @@ import {
 } from '@nestjs/common';
 import {
   ApiTags,
-  ApiResponse,
   ApiBadRequestResponse,
   ApiOkResponse,
   ApiNotFoundResponse,
@@ -21,8 +20,8 @@ import {
 /* services */
 import { TodosService } from './todos.service';
 /* dto */
-import { CreateTodoDto } from './dto/create-todo.dto';
-import { UpdateTodoDto } from './dto/update-todo.dto';
+import { CreateTodoDto, CreateTodoResponseDto } from './dto/create-todo.dto';
+import { UpdateTodoDto, UpdateTodoResponseDto } from './dto/update-todo.dto';
 import {
   FindTodoListResponseDto,
   FindTodoResponseDto,
@@ -44,7 +43,7 @@ export class TodosController {
   })
   @ApiCreatedResponse({
     description: 'タスク作成完了',
-    type: Todo,
+    type: CreateTodoResponseDto,
   })
   create(@Body(ValidationPipe) createTodoDto: CreateTodoDto) {
     return this.todosService.create(createTodoDto);
