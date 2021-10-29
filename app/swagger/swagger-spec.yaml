@@ -91,10 +91,16 @@ paths:
           required: true
           in: path
           schema:
-            type: string
+            type: number
       responses:
         '200':
-          description: ''
+          description: タスク削除完了
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RemoveTodoResponseDto'
+        '404':
+          description: 指定のタスクが存在しない
       tags: *ref_0
 info:
   title: API description
@@ -228,6 +234,24 @@ components:
           example: '2021-10-28T08:38:14.237Z'
       required:
         - id
+        - title
+        - createdAt
+        - updatedAt
+    RemoveTodoResponseDto:
+      type: object
+      properties:
+        title:
+          type: string
+          example: サンプル
+          minLength: 2
+          maxLength: 25
+        createdAt:
+          type: string
+          example: '2021-10-28T08:38:14.237Z'
+        updatedAt:
+          type: string
+          example: '2021-10-28T08:38:14.237Z'
+      required:
         - title
         - createdAt
         - updatedAt

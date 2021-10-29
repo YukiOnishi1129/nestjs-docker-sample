@@ -9,7 +9,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Todo } from '../entities/todo.entity';
 
 /**
- * GetTodoResponse
+ * FindTodoResponseDto
  */
 export class FindTodoResponseDto {
   @ApiProperty({
@@ -50,7 +50,7 @@ export class FindTodoResponseDto {
 }
 
 /**
- * GetTodoListResponse
+ * FindTodoListResponseDto
  */
 export class FindTodoListResponseDto {
   @ApiProperty({

@@ -26,6 +26,7 @@ import {
   FindTodoListResponseDto,
   FindTodoResponseDto,
 } from './dto/find-todo.dto';
+import { RemoveTodoResponseDto } from './dto/remove-todo.dto';
 /* entities */
 import { Todo } from './entities/todo.entity';
 
@@ -87,7 +88,14 @@ export class TodosController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.todosService.remove(+id);
+  @ApiOkResponse({
+    description: 'タスク削除完了',
+    type: RemoveTodoResponseDto,
+  })
+  @ApiNotFoundResponse({
+    description: '指定のタスクが存在しない',
+  })
+  async remove(@Param('id') id: number): Promise<Todo> {
+    return await this.todosService.remove(id);
   }
 }

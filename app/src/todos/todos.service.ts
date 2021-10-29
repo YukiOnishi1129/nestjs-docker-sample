@@ -13,10 +13,19 @@ export class TodosService {
     private todoRepository: TodoRepository,
   ) {}
 
+  /**
+   * 新規登録処理
+   * @param {CreateTodoDto} createTodoDto
+   * @returns
+   */
   async create(createTodoDto: CreateTodoDto) {
     return await this.todoRepository.createTodo(createTodoDto);
   }
 
+  /**
+   * Todo全取得処理
+   * @returns
+   */
   async findAll() {
     return await this.todoRepository.find();
   }
@@ -49,7 +58,13 @@ export class TodosService {
     return await todo.save();
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} todo`;
+  /**
+   * 削除処理
+   * @param {number} id
+   * @returns
+   */
+  async remove(id: number) {
+    const todo = await this.todoRepository.findTodo(id);
+    return todo.remove();
   }
 }
