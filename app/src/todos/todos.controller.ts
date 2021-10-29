@@ -45,7 +45,7 @@ export class TodosController {
     description: 'タスク作成完了',
     type: CreateTodoResponseDto,
   })
-  create(@Body(ValidationPipe) createTodoDto: CreateTodoDto) {
+  create(@Body(ValidationPipe) createTodoDto: CreateTodoDto): Promise<Todo> {
     return this.todosService.create(createTodoDto);
   }
 
@@ -54,7 +54,7 @@ export class TodosController {
     description: 'タスク一覧取得完了',
     type: FindTodoListResponseDto,
   })
-  findAll() {
+  findAll(): Promise<Todo[]> {
     return this.todosService.findAll();
   }
 
@@ -66,14 +66,24 @@ export class TodosController {
   @ApiNotFoundResponse({
     description: '指定のタスクが存在しない',
   })
-  async findOne(@Param('id', ParseIntPipe) id: number) {
+  async findOne(@Param('id', ParseIntPipe) id: number): Promise<Todo> {
     const todo = await this.todosService.findOne(id);
     return todo;
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTodoDto: UpdateTodoDto) {
-    return this.todosService.update(+id, updateTodoDto);
+  @ApiOkResponse({
+    description: 'タスク更新完了',
+    type: UpdateTodoResponseDto,
+  })
+  @ApiNotFoundResponse({
+    description: '指定のタスクが存在しない',
+  })
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body(ValidationPipe) updateTodoDto: UpdateTodoDto,
+  ): Promise<Todo> {
+    return await this.todosService.update(id, updateTodoDto);
   }
 
   @Delete(':id')

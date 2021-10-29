@@ -67,7 +67,7 @@ paths:
           required: true
           in: path
           schema:
-            type: string
+            type: number
       requestBody:
         required: true
         content:
@@ -76,7 +76,13 @@ paths:
               $ref: '#/components/schemas/UpdateTodoDto'
       responses:
         '200':
-          description: ''
+          description: タスク更新完了
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateTodoResponseDto'
+        '404':
+          description: 指定のタスクが存在しない
       tags: *ref_0
     delete:
       operationId: TodosController_remove
@@ -196,14 +202,32 @@ components:
     UpdateTodoDto:
       type: object
       properties:
-        id:
-          type: number
-          example: 1
         title:
           type: string
           example: サンプル
           minLength: 2
           maxLength: 25
       required:
+        - title
+    UpdateTodoResponseDto:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 1
+        title:
+          type: string
+          example: サンプル
+          minLength: 2
+          maxLength: 25
+        createdAt:
+          type: string
+          example: '2021-10-28T08:38:14.237Z'
+        updatedAt:
+          type: string
+          example: '2021-10-28T08:38:14.237Z'
+      required:
         - id
         - title
+        - createdAt
+        - updatedAt

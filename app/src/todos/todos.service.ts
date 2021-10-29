@@ -21,6 +21,11 @@ export class TodosService {
     return await this.todoRepository.find();
   }
 
+  /**
+   * Todo取得処理
+   * @param id
+   * @returns
+   */
   async findOne(id: number) {
     const todo = await this.todoRepository.findOne({
       where: { id },
@@ -31,8 +36,17 @@ export class TodosService {
     return todo;
   }
 
-  update(id: number, updateTodoDto: UpdateTodoDto) {
-    return `This action updates a #${id} todo`;
+  /**
+   * 更新処理
+   * @param {number} id
+   * @param {UpdateTodoDto} updateTodoDto
+   * @returns
+   */
+  async update(id: number, updateTodoDto: UpdateTodoDto) {
+    const todo = await this.todoRepository.findTodo(id);
+    todo.title = updateTodoDto.title;
+
+    return await todo.save();
   }
 
   remove(id: number) {

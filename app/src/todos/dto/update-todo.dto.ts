@@ -11,14 +11,6 @@ import { CreateTodoDto } from './create-todo.dto';
 
 export class UpdateTodoDto extends PartialType(CreateTodoDto) {
   @ApiProperty({
-    example: 1,
-    type: Number,
-  })
-  @IsNumber()
-  @IsNotEmpty()
-  id: number;
-
-  @ApiProperty({
     example: 'サンプル',
     type: String,
     minLength: 2,
