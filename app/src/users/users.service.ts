@@ -7,6 +7,8 @@ import { SignUpUserDto } from './dto/sign-up-user.dto';
 import { SignInUserDto } from './dto/sign-in-user.dto';
 /* repositories */
 import { UserRepository } from './repositories/user.repository';
+/* interfaces */
+import { JwtPayload } from './interface/jwt-payload.interface';
 
 @Injectable()
 export class UsersService {
@@ -18,7 +20,7 @@ export class UsersService {
   async signIn(signInUserDto: SignInUserDto) {
     const email = await this.userRepository.validatePassword(signInUserDto);
 
-    const payload = {
+    const payload: JwtPayload = {
       email,
     };
 
