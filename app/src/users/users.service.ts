@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { JwtService } from '@nestjs/jwt';
 /* dto */
-import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { SignUpUserDto } from './dto/sign-up-user.dto';
+import { SignInUserDto } from './dto/sign-in-user.dto';
 /* repositories */
 import { UserRepository } from './repositories/user.repository';
 
@@ -11,8 +12,23 @@ import { UserRepository } from './repositories/user.repository';
 export class UsersService {
   constructor(
     @InjectRepository(UserRepository) private userRepository: UserRepository,
+    private readonly jwtSecret: JwtService,
   ) {}
 
+  async signIn(signInUserDto: SignInUserDto) {
+    const email = await this.userRepository.validatePassword(signInUserDto);
+
+    const payload = {
+      email,
+    };
+
+    return await this.jwtSecret.signAsync(payload);
+  }
+
+  /**
+   * ユーザー新規登録
+   * @param {SignUpUserDto} signUpUserDto
+   */
   async create(signUpUserDto: SignUpUserDto) {
     await this.userRepository.createUser(signUpUserDto);
   }

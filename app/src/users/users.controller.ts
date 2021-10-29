@@ -7,12 +7,13 @@ import {
   Param,
   Delete,
   ValidationPipe,
+  HttpCode,
 } from '@nestjs/common';
 import {
   ApiTags,
   ApiBadRequestResponse,
   ApiOkResponse,
-  ApiNotFoundResponse,
+  ApiUnauthorizedResponse,
   ApiConflictResponse,
   ApiCreatedResponse,
   ApiInternalServerErrorResponse,
@@ -22,14 +23,14 @@ import { UsersService } from './users.service';
 /* dto */
 import { UpdateUserDto } from './dto/update-user.dto';
 import { SignUpUserDto } from './dto/sign-up-user.dto';
-import { timingSafeEqual } from 'crypto';
+import { SignInUserDto } from './dto/sign-in-user.dto';
 
 @ApiTags('users')
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post()
+  @Post('sign_up')
   @ApiCreatedResponse({
     description: 'ユーザー登録完了',
   })
@@ -42,8 +43,22 @@ export class UsersController {
   @ApiInternalServerErrorResponse({
     description: 'DBサーバ接続エラー',
   })
-  async signup(@Body(ValidationPipe) signUpUserDto: SignUpUserDto) {
+  async signUp(@Body(ValidationPipe) signUpUserDto: SignUpUserDto) {
     await this.usersService.create(signUpUserDto);
+  }
+
+  @Post('sign_in')
+  @HttpCode(200)
+  @ApiOkResponse({
+    type: String,
+    description: 'ユーザーログイン完了',
+  })
+  @ApiUnauthorizedResponse({
+    description:
+      'メールアドレスまたはパスワードが異なることによるログインエラー',
+  })
+  async signIn(@Body(ValidationPipe) signInUserDto: SignInUserDto) {
+    return this.usersService.signIn(signInUserDto);
   }
 
   @Get()

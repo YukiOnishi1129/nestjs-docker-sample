@@ -102,9 +102,9 @@ paths:
         '404':
           description: 指定のタスクが存在しない
       tags: *ref_0
-  /api/users:
+  /api/users/sign_up:
     post:
-      operationId: UsersController_signup
+      operationId: UsersController_signUp
       parameters: []
       requestBody:
         required: true
@@ -123,6 +123,27 @@ paths:
           description: DBサーバ接続エラー
       tags: &ref_1
         - users
+  /api/users/sign_in:
+    post:
+      operationId: UsersController_signIn
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignInUserDto'
+      responses:
+        '200':
+          description: ユーザーログイン完了
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          description: メールアドレスまたはパスワードが異なることによるログインエラー
+      tags: *ref_1
+  /api/users:
     get:
       operationId: UsersController_findAll
       parameters: []
@@ -330,6 +351,20 @@ components:
         - createdAt
         - updatedAt
     SignUpUserDto:
+      type: object
+      properties:
+        email:
+          type: string
+          example: test1@gmail.com
+        password:
+          type: string
+          example: hogehoge
+          minLength: 6
+          maxLength: 25
+      required:
+        - email
+        - password
+    SignInUserDto:
       type: object
       properties:
         email:
