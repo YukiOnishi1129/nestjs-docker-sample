@@ -23,7 +23,10 @@ import { TodosService } from './todos.service';
 /* dto */
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
-import { GetTodoResponse, GetTodoListResponse } from './dto/find-todo.dto';
+import {
+  FindTodoListResponseDto,
+  FindTodoResponseDto,
+} from './dto/find-todo.dto';
 /* entities */
 import { Todo } from './entities/todo.entity';
 
@@ -50,7 +53,7 @@ export class TodosController {
   @Get()
   @ApiOkResponse({
     description: 'タスク一覧取得完了',
-    type: GetTodoListResponse,
+    type: FindTodoListResponseDto,
   })
   findAll() {
     return this.todosService.findAll();
@@ -59,7 +62,7 @@ export class TodosController {
   @Get(':id')
   @ApiOkResponse({
     description: 'タスク単体取得完了',
-    type: GetTodoResponse,
+    type: FindTodoResponseDto,
   })
   @ApiNotFoundResponse({
     description: '指定のタスクが存在しない',

@@ -39,7 +39,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetTodoListResponse'
+                $ref: '#/components/schemas/FindTodoListResponseDto'
       tags: *ref_0
   /api/todos/{id}:
     get:
@@ -56,7 +56,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetTodoResponse'
+                $ref: '#/components/schemas/FindTodoResponseDto'
         '404':
           description: 指定のタスクが存在しない
       tags: *ref_0
@@ -127,7 +127,7 @@ components:
         - title
         - createdAt
         - updatedAt
-    GetTodoListResponse:
+    FindTodoListResponseDto:
       type: object
       properties:
         todos:
@@ -149,7 +149,7 @@ components:
             $ref: '#/components/schemas/Todo'
       required:
         - todos
-    GetTodoResponse:
+    FindTodoResponseDto:
       type: object
       properties:
         id:

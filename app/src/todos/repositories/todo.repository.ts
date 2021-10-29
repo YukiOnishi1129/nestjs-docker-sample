@@ -1,7 +1,4 @@
-import {
-  ConflictException,
-  InternalServerErrorException,
-} from '@nestjs/common';
+import { InternalServerErrorException } from '@nestjs/common';
 import { EntityRepository, Repository } from 'typeorm';
 import { Todo } from '../entities/todo.entity';
 import { CreateTodoDto } from '../dto/create-todo.dto';
