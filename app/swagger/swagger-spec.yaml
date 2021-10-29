@@ -102,6 +102,65 @@ paths:
         '404':
           description: 指定のタスクが存在しない
       tags: *ref_0
+  /api/users:
+    post:
+      operationId: UsersController_create
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserDto'
+      responses:
+        '201':
+          description: ''
+    get:
+      operationId: UsersController_findAll
+      parameters: []
+      responses:
+        '200':
+          description: ''
+  /api/users/{id}:
+    get:
+      operationId: UsersController_findOne
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+    patch:
+      operationId: UsersController_update
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserDto'
+      responses:
+        '200':
+          description: ''
+    delete:
+      operationId: UsersController_remove
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
 info:
   title: API description
   description: ''
@@ -150,6 +209,8 @@ components:
           type: number
         title:
           type: string
+        userId:
+          type: number
         createdAt:
           format: date-time
           type: string
@@ -159,6 +220,7 @@ components:
       required:
         - id
         - title
+        - userId
         - createdAt
         - updatedAt
     FindTodoListResponseDto:
@@ -255,3 +317,9 @@ components:
         - title
         - createdAt
         - updatedAt
+    CreateUserDto:
+      type: object
+      properties: {}
+    UpdateUserDto:
+      type: object
+      properties: {}
