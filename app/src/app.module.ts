@@ -16,7 +16,7 @@ import { UsersModule } from './users/users.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot(),
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({ isGlobal: true }), // envファイルを組み込むために使用
     UsersModule,
     TodosModule,
   ],
