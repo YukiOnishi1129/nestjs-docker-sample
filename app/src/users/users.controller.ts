@@ -11,7 +11,7 @@ import {
   UseGuards,
   Request,
 } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
+// import { AuthGuard } from '@nestjs/passport';
 import {
   ApiTags,
   ApiBadRequestResponse,
@@ -27,6 +27,8 @@ import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { SignUpUserDto } from './dto/sign-up-user.dto';
 import { SignInUserDto } from './dto/sign-in-user.dto';
+/* entities */
+import { User } from './entities/user.entity';
 /* guard */
 import { LocalAuthGuard } from './local-auth.guard';
 
@@ -65,7 +67,12 @@ export class UsersController {
     description:
       'メールアドレスまたはパスワードが異なることによるログインエラー',
   })
-  async signIn(@Body(ValidationPipe) signInUserDto: SignInUserDto) {
+  async signIn(
+    @Body(ValidationPipe) signInUserDto: SignInUserDto,
+    @Request() req: { user: User },
+  ) {
+    console.log('aaa');
+    console.log(req.user);
     return this.usersService.signIn(signInUserDto);
   }
 

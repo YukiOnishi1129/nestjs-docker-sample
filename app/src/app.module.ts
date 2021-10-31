@@ -17,8 +17,8 @@ import { UsersModule } from './users/users.module';
   imports: [
     TypeOrmModule.forRoot(),
     ConfigModule.forRoot({ isGlobal: true }),
-    TodosModule,
     UsersModule,
+    TodosModule,
   ],
   controllers: [AppController],
   providers: [AppService],

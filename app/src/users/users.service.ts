@@ -23,13 +23,15 @@ export class UsersService {
    * @returns
    */
   async signIn(signInUserDto: SignInUserDto) {
-    const email = await this.userRepository.validatePassword(signInUserDto);
+    const user = await this.userRepository.validatePassword(signInUserDto);
 
     const payload: JwtPayload = {
-      email,
+      userId: user.id,
+      email: user.email,
     };
-
-    return await this.jwtSecret.signAsync(payload);
+    // jwtアクセストークンを作成し返却
+    // return await this.jwtSecret.signAsync(payload);
+    return this.jwtSecret.sign(payload);
   }
 
   /**

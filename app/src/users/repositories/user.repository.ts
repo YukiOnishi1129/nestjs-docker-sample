@@ -40,7 +40,7 @@ export class UserRepository extends Repository<User> {
   async validatePassword({ email, password }: SignInUserDto) {
     const user = await this.findOne({ email });
     if (user && (await bcrypt.compare(password, user.password))) {
-      return user.email;
+      return user;
     }
 
     throw new UnauthorizedException('メールアドレスまたはパスワードが違います');

@@ -36,6 +36,8 @@ import { RemoveTodoResponseDto } from './dto/remove-todo.dto';
 /* entities */
 import { Todo } from './entities/todo.entity';
 import { User } from '../users/entities/user.entity';
+/* interface */
+import { JwtPayload } from '../users/interface/jwt-payload.interface';
 
 @ApiTags('todos')
 @Controller('todos')
@@ -61,6 +63,7 @@ export class TodosController {
     return this.todosService.create(createTodoDto, user);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Get()
   @ApiOkResponse({
     description: 'タスク一覧取得完了',
@@ -69,17 +72,17 @@ export class TodosController {
   @ApiUnauthorizedResponse({
     description: '認証エラー',
   })
-  async findAll(@Request() req): Promise<Todo[]> {
-    console.log(req?.user);
-    const todoList = await this.todosService.findAll();
+  async findAll(
+    @Request() req: { user: JwtPayload },
+    // @GetUser() user: User,
+  ): Promise<Todo[]> {
+    const todoList = await this.todosService.findAll(req.user.userId);
     return todoList.map((todo) => {
       delete todo.user.password;
       return todo;
     });
   }
 
-  // @UseGuardsはcontroller全体ではなく、Methods単位で定義しないとエラーになる
-  @UseGuards(AuthGuard('jwt'))
   @Get(':id')
   @ApiOkResponse({
     description: 'タスク単体取得完了',

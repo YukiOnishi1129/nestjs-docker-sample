@@ -7,6 +7,98 @@ paths:
       responses:
         '200':
           description: ''
+  /api/users/sign_up:
+    post:
+      operationId: UsersController_signUp
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignUpUserDto'
+      responses:
+        '201':
+          description: ユーザー登録完了
+        '400':
+          description: 入力値のフォーマットエラー
+        '409':
+          description: メールアドレスの重複エラー
+        '500':
+          description: DBサーバ接続エラー
+      tags: &ref_0
+        - users
+  /api/users/sign_in:
+    post:
+      operationId: UsersController_signIn
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignInUserDto'
+      responses:
+        '200':
+          description: ユーザーログイン完了
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          description: メールアドレスまたはパスワードが異なることによるログインエラー
+      tags: *ref_0
+  /api/users:
+    get:
+      operationId: UsersController_findAll
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags: *ref_0
+  /api/users/{id}:
+    get:
+      operationId: UsersController_findOne
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags: *ref_0
+    patch:
+      operationId: UsersController_update
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserDto'
+      responses:
+        '200':
+          description: ''
+      tags: *ref_0
+    delete:
+      operationId: UsersController_remove
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags: *ref_0
   /api/todos:
     post:
       operationId: TodosController_create
@@ -28,9 +120,9 @@ paths:
           description: 入力値のフォーマットエラー
         '500':
           description: DBサーバ接続エラー
-      tags: &ref_0
+      tags: &ref_1
         - todos
-      security: &ref_1
+      security: &ref_2
         - bearer: []
     get:
       operationId: TodosController_findAll
@@ -44,8 +136,8 @@ paths:
                 $ref: '#/components/schemas/FindTodoListResponseDto'
         '401':
           description: 認証エラー
-      tags: *ref_0
-      security: *ref_1
+      tags: *ref_1
+      security: *ref_2
   /api/todos/{id}:
     get:
       operationId: TodosController_findOne
@@ -64,8 +156,8 @@ paths:
                 $ref: '#/components/schemas/FindTodoResponseDto'
         '404':
           description: 指定のタスクが存在しない
-      tags: *ref_0
-      security: *ref_1
+      tags: *ref_1
+      security: *ref_2
     patch:
       operationId: TodosController_update
       parameters:
@@ -89,8 +181,8 @@ paths:
                 $ref: '#/components/schemas/UpdateTodoResponseDto'
         '404':
           description: 指定のタスクが存在しない
-      tags: *ref_0
-      security: *ref_1
+      tags: *ref_1
+      security: *ref_2
     delete:
       operationId: TodosController_remove
       parameters:
@@ -108,100 +200,8 @@ paths:
                 $ref: '#/components/schemas/RemoveTodoResponseDto'
         '404':
           description: 指定のタスクが存在しない
-      tags: *ref_0
-      security: *ref_1
-  /api/users/sign_up:
-    post:
-      operationId: UsersController_signUp
-      parameters: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SignUpUserDto'
-      responses:
-        '201':
-          description: ユーザー登録完了
-        '400':
-          description: 入力値のフォーマットエラー
-        '409':
-          description: メールアドレスの重複エラー
-        '500':
-          description: DBサーバ接続エラー
-      tags: &ref_2
-        - users
-  /api/users/sign_in:
-    post:
-      operationId: UsersController_signIn
-      parameters: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SignInUserDto'
-      responses:
-        '200':
-          description: ユーザーログイン完了
-          content:
-            application/json:
-              schema:
-                type: string
-        '401':
-          description: メールアドレスまたはパスワードが異なることによるログインエラー
-      tags: *ref_2
-  /api/users:
-    get:
-      operationId: UsersController_findAll
-      parameters: []
-      responses:
-        '200':
-          description: ''
-      tags: *ref_2
-  /api/users/{id}:
-    get:
-      operationId: UsersController_findOne
-      parameters:
-        - name: id
-          required: true
-          in: path
-          schema:
-            type: string
-      responses:
-        '200':
-          description: ''
-      tags: *ref_2
-    patch:
-      operationId: UsersController_update
-      parameters:
-        - name: id
-          required: true
-          in: path
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdateUserDto'
-      responses:
-        '200':
-          description: ''
-      tags: *ref_2
-    delete:
-      operationId: UsersController_remove
-      parameters:
-        - name: id
-          required: true
-          in: path
-          schema:
-            type: string
-      responses:
-        '200':
-          description: ''
-      tags: *ref_2
+      tags: *ref_1
+      security: *ref_2
 info:
   title: API description
   description: ''
@@ -217,6 +217,37 @@ components:
       bearerFormat: JWT
       type: http
   schemas:
+    SignUpUserDto:
+      type: object
+      properties:
+        email:
+          type: string
+          example: test1@gmail.com
+        password:
+          type: string
+          example: hogehoge
+          minLength: 6
+          maxLength: 25
+      required:
+        - email
+        - password
+    SignInUserDto:
+      type: object
+      properties:
+        email:
+          type: string
+          example: test1@gmail.com
+        password:
+          type: string
+          example: hogehoge
+          minLength: 6
+          maxLength: 25
+      required:
+        - email
+        - password
+    UpdateUserDto:
+      type: object
+      properties: {}
     CreateTodoDto:
       type: object
       properties:
@@ -383,34 +414,3 @@ components:
         - userId
         - createdAt
         - updatedAt
-    SignUpUserDto:
-      type: object
-      properties:
-        email:
-          type: string
-          example: test1@gmail.com
-        password:
-          type: string
-          example: hogehoge
-          minLength: 6
-          maxLength: 25
-      required:
-        - email
-        - password
-    SignInUserDto:
-      type: object
-      properties:
-        email:
-          type: string
-          example: test1@gmail.com
-        password:
-          type: string
-          example: hogehoge
-          minLength: 6
-          maxLength: 25
-      required:
-        - email
-        - password
-    UpdateUserDto:
-      type: object
-      properties: {}

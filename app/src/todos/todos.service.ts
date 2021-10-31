@@ -29,9 +29,10 @@ export class TodosService {
    * Todo全取得処理
    * @returns
    */
-  async findAll() {
+  async findAll(userId: number) {
     return await this.todoRepository.find({
       relations: ['user'],
+      where: [{ userId: userId }],
     });
   }
 
