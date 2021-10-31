@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Request,
   ValidationPipe,
   ParseIntPipe,
   UseGuards,
@@ -38,7 +39,6 @@ import { User } from '../users/entities/user.entity';
 
 @ApiTags('todos')
 @Controller('todos')
-@UseGuards(AuthGuard('jwt'))
 @ApiBearerAuth()
 export class TodosController {
   constructor(private readonly todosService: TodosService) {}
@@ -69,7 +69,8 @@ export class TodosController {
   @ApiUnauthorizedResponse({
     description: '認証エラー',
   })
-  async findAll(): Promise<Todo[]> {
+  async findAll(@Request() req): Promise<Todo[]> {
+    console.log(req?.user);
     const todoList = await this.todosService.findAll();
     return todoList.map((todo) => {
       delete todo.user.password;
@@ -77,6 +78,8 @@ export class TodosController {
     });
   }
 
+  // @UseGuardsはcontroller全体ではなく、Methods単位で定義しないとエラーになる
+  @UseGuards(AuthGuard('jwt'))
   @Get(':id')
   @ApiOkResponse({
     description: 'タスク単体取得完了',

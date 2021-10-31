@@ -9,6 +9,7 @@ import { UsersController } from './users.controller';
 /* repositories */
 import { UserRepository } from './repositories/user.repository';
 /* strategy */
+import { LocalStrategy } from './strategy/local.strategy';
 import { JwtStrategy } from './strategy/jwt.strategy';
 
 @Module({
@@ -16,11 +17,11 @@ import { JwtStrategy } from './strategy/jwt.strategy';
     PassportModule,
     JwtModule.register({
       secret: `${process.env.JWT_SECRET}`, // JWTトークンは文字列にしないとエラー
-      signOptions: { expiresIn: '1h' },
+      signOptions: { expiresIn: '1200s' },
     }),
     TypeOrmModule.forFeature([UserRepository]),
   ],
   controllers: [UsersController],
-  providers: [UsersService, JwtStrategy],
+  providers: [UsersService, LocalStrategy, JwtStrategy],
 })
 export class UsersModule {}

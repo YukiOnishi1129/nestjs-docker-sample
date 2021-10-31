@@ -8,7 +8,10 @@ import {
   Delete,
   ValidationPipe,
   HttpCode,
+  UseGuards,
+  Request,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import {
   ApiTags,
   ApiBadRequestResponse,
@@ -24,6 +27,8 @@ import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { SignUpUserDto } from './dto/sign-up-user.dto';
 import { SignInUserDto } from './dto/sign-in-user.dto';
+/* guard */
+import { LocalAuthGuard } from './local-auth.guard';
 
 @ApiTags('users')
 @Controller('users')
@@ -47,6 +52,9 @@ export class UsersController {
     await this.usersService.create(signUpUserDto);
   }
 
+  // controllerの処理の前にlocal.strategy.tsのvalidateの処理を実行する
+  // UseGuards(LocalAuthGuard)でlocal.strategyに処理を渡すようになる
+  @UseGuards(LocalAuthGuard)
   @Post('sign_in')
   @HttpCode(200)
   @ApiOkResponse({
