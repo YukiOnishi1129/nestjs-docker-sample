@@ -8,7 +8,7 @@ import * as bcrypt from 'bcrypt';
 /* entities */
 import { User } from '../entities/user.entity';
 /* dto */
-import { SignUpUserDto } from '../dto/sign-up-user.dto';
+import { SignUpUserDto } from '../../auth/dto/sign-up-user.dto';
 import { SignInUserDto } from '../../auth/dto/sign-in-user.dto';
 
 @EntityRepository(User)

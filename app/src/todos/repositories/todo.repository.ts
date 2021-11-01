@@ -5,7 +5,6 @@ import {
 import { EntityRepository, Repository } from 'typeorm';
 /* entities */
 import { Todo } from '../entities/todo.entity';
-import { User } from '../../users/entities/user.entity';
 /* dto */
 import { CreateTodoDto } from '../dto/create-todo.dto';
 
@@ -31,10 +30,10 @@ export class TodoRepository extends Repository<Todo> {
    * @param {User} user
    * @returns
    */
-  async createTodo({ title }: CreateTodoDto, user: User) {
+  async createTodo({ title }: CreateTodoDto, userId: number) {
     const todo = new Todo();
     todo.title = title;
-    todo.userId = user.id;
+    todo.userId = userId;
 
     try {
       await todo.save();
