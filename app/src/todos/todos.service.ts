@@ -5,7 +5,7 @@ import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
 import {
   FindTodoListResponseDto,
-  FindTodoResponseDto,
+  // FindTodoResponseDto,
 } from './dto/find-todo.dto';
 /* repositories */
 import { TodoRepository } from './repositories/todo.repository';
@@ -32,10 +32,12 @@ export class TodosService {
    * @returns
    */
   async findAll(userId: number): Promise<FindTodoListResponseDto> {
-    const dataList = await this.todoRepository.find({
-      relations: ['user'],
-      where: [{ userId: userId }],
-    });
+    const dataList = await this.todoRepository.findAll(userId);
+
+    if (!dataList || (dataList && dataList.length === 0))
+      return {
+        todos: [],
+      };
 
     const todoList = dataList.map((todo) => {
       delete todo.user.password;

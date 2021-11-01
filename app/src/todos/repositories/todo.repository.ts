@@ -12,6 +12,17 @@ import { CreateTodoDto } from '../dto/create-todo.dto';
 @EntityRepository(Todo)
 export class TodoRepository extends Repository<Todo> {
   /**
+   * Todoリスト取得
+   * @param {number} userId
+   * @returns
+   */
+  async findAll(userId: number) {
+    return await this.find({
+      relations: ['user'],
+      where: [{ userId: userId }],
+    });
+  }
+  /**
    * 取得処理
    * @param {number} id
    * @returns

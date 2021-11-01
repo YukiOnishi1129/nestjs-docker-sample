@@ -7,7 +7,7 @@ import {
   MaxLength,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { Todo } from '../entities/todo.entity';
+// import { Todo } from '../entities/todo.entity';
 
 export class TodoUserResponse {
   @ApiProperty({
