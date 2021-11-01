@@ -33,6 +33,14 @@ export class FindTodoResponseDto {
   title: string;
 
   @ApiProperty({
+    example: 1,
+    type: String,
+  })
+  @IsNumber()
+  @IsNotEmpty()
+  userId: number;
+
+  @ApiProperty({
     example: '2021-10-28T08:38:14.237Z',
     type: String,
   })
@@ -59,18 +67,21 @@ export class FindTodoListResponseDto {
       {
         id: 1,
         title: 'タスク1',
+        userId: 1,
         createdAt: '2021-10-28T08:38:14.237Z',
         updatedAt: '2021-10-28T08:38:14.237Z',
       },
       {
         id: 2,
         title: 'タスク2',
+        userId: 1,
         createdAt: '2021-10-28T08:38:14.237Z',
         updatedAt: '2021-10-28T08:38:14.237Z',
       },
       {
         id: 3,
         title: 'タスク3',
+        userId: 1,
         createdAt: '2021-10-28T08:38:14.237Z',
         updatedAt: '2021-10-28T08:38:14.237Z',
       },

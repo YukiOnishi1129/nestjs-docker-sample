@@ -6,17 +6,23 @@ import {
   Patch,
   Param,
   Delete,
+  Request,
   ValidationPipe,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import {
   ApiTags,
+  ApiBearerAuth,
   ApiBadRequestResponse,
+  ApiUnauthorizedResponse,
   ApiOkResponse,
   ApiNotFoundResponse,
   ApiCreatedResponse,
   ApiInternalServerErrorResponse,
 } from '@nestjs/swagger';
+import { GetUser } from '../users/get-user.decorator';
 /* services */
 import { TodosService } from './todos.service';
 /* dto */
@@ -29,9 +35,13 @@ import {
 import { RemoveTodoResponseDto } from './dto/remove-todo.dto';
 /* entities */
 import { Todo } from './entities/todo.entity';
+import { User } from '../users/entities/user.entity';
+/* interface */
+import { JwtPayload } from '../users/interface/jwt-payload.interface';
 
 @ApiTags('todos')
 @Controller('todos')
+@ApiBearerAuth()
 export class TodosController {
   constructor(private readonly todosService: TodosService) {}
 
@@ -46,17 +56,31 @@ export class TodosController {
     description: 'タスク作成完了',
     type: CreateTodoResponseDto,
   })
-  create(@Body(ValidationPipe) createTodoDto: CreateTodoDto): Promise<Todo> {
-    return this.todosService.create(createTodoDto);
+  create(
+    @Body(ValidationPipe) createTodoDto: CreateTodoDto,
+    @GetUser() user: User,
+  ): Promise<Todo> {
+    return this.todosService.create(createTodoDto, user);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Get()
   @ApiOkResponse({
     description: 'タスク一覧取得完了',
     type: FindTodoListResponseDto,
   })
-  findAll(): Promise<Todo[]> {
-    return this.todosService.findAll();
+  @ApiUnauthorizedResponse({
+    description: '認証エラー',
+  })
+  async findAll(
+    @Request() req: { user: JwtPayload },
+    // @GetUser() user: User,
+  ): Promise<Todo[]> {
+    const todoList = await this.todosService.findAll(req.user.userId);
+    return todoList.map((todo) => {
+      delete todo.user.password;
+      return todo;
+    });
   }
 
   @Get(':id')
