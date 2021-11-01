@@ -22,7 +22,6 @@ import {
   ApiCreatedResponse,
   ApiInternalServerErrorResponse,
 } from '@nestjs/swagger';
-import { GetUser } from '../users/get-user.decorator';
 /* services */
 import { TodosService } from './todos.service';
 /* dto */
@@ -35,9 +34,8 @@ import {
 import { RemoveTodoResponseDto } from './dto/remove-todo.dto';
 /* entities */
 import { Todo } from './entities/todo.entity';
-import { User } from '../users/entities/user.entity';
 /* interface */
-import { JwtPayload } from '../users/interface/jwt-payload.interface';
+import { JwtPayload } from '../common/jwt/interfaces/jwt-payload.interface';
 
 @ApiTags('todos')
 @Controller('todos')
@@ -58,9 +56,10 @@ export class TodosController {
   })
   create(
     @Body(ValidationPipe) createTodoDto: CreateTodoDto,
-    @GetUser() user: User,
+    @Request() req: { user: JwtPayload },
   ): Promise<Todo> {
-    return this.todosService.create(createTodoDto, user);
+    const userId = req.user.userId;
+    return this.todosService.create(createTodoDto, userId);
   }
 
   @UseGuards(AuthGuard('jwt'))

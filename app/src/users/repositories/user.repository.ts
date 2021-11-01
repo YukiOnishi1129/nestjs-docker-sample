@@ -8,8 +8,8 @@ import * as bcrypt from 'bcrypt';
 /* entities */
 import { User } from '../entities/user.entity';
 /* dto */
-import { SignUpUserDto } from '../dto/sign-up-user.dto';
-import { SignInUserDto } from '../dto/sign-in-user.dto';
+import { SignUpUserDto } from '../../auth/dto/sign-up-user.dto';
+import { SignInUserDto } from '../../auth/dto/sign-in-user.dto';
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
@@ -24,6 +24,7 @@ export class UserRepository extends Repository<User> {
 
     try {
       await user.save();
+      return user;
     } catch (err) {
       if (err.code === 'ER_DUP_ENTRY') {
         throw new ConflictException('メールアドレスが登録済みです');

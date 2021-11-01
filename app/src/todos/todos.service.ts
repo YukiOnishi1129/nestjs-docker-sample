@@ -1,7 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-/* entities */
-import { User } from '../users/entities/user.entity';
 /* dto */
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
@@ -18,11 +16,11 @@ export class TodosService {
   /**
    * 新規登録処理
    * @param {CreateTodoDto} createTodoDto
-   * @param {User} user
+   * @param {number} userId
    * @returns
    */
-  async create(createTodoDto: CreateTodoDto, user: User) {
-    return await this.todoRepository.createTodo(createTodoDto, user);
+  async create(createTodoDto: CreateTodoDto, userId: number) {
+    return await this.todoRepository.createTodo(createTodoDto, userId);
   }
 
   /**

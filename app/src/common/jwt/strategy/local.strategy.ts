@@ -3,9 +3,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Strategy } from 'passport-local';
 /* repositories */
-import { UserRepository } from '../repositories/user.repository';
-/* interfaces */
-// import { JwtPayload } from '../interface/jwt-payload.interface';
+import { UserRepository } from '../../../users/repositories/user.repository';
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
