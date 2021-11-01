@@ -1,15 +1,11 @@
 import {
   Controller,
-  Get,
   Post,
   Body,
-  Patch,
-  Param,
-  Delete,
   ValidationPipe,
   HttpCode,
   UseGuards,
-  Request,
+  //   Request,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -23,9 +19,10 @@ import {
 /* services */
 import { AuthService } from './auth.service';
 /* dto */
+import { SignUpUserDto } from './dto/sign-up-user.dto';
 import { SignInUserDto } from './dto/sign-in-user.dto';
 /* entities */
-import { User } from '../users/entities/user.entity';
+// import { User } from '../users/entities/user.entity';
 /* guard */
 import { LocalAuthGuard } from '../common/guards/local-auth.guard';
 
@@ -34,22 +31,23 @@ import { LocalAuthGuard } from '../common/guards/local-auth.guard';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  //   @Post('sign_up')
-  //   @ApiCreatedResponse({
-  //     description: 'ユーザー登録完了',
-  //   })
-  //   @ApiBadRequestResponse({
-  //     description: '入力値のフォーマットエラー',
-  //   })
-  //   @ApiConflictResponse({
-  //     description: 'メールアドレスの重複エラー',
-  //   })
-  //   @ApiInternalServerErrorResponse({
-  //     description: 'DBサーバ接続エラー',
-  //   })
-  //   async signUp(@Body(ValidationPipe) signUpUserDto: SignUpUserDto) {
-  //     await this.usersService.create(signUpUserDto);
-  //   }
+  @Post('sign_up')
+  @HttpCode(200)
+  @ApiCreatedResponse({
+    description: 'ユーザー登録完了',
+  })
+  @ApiBadRequestResponse({
+    description: '入力値のフォーマットエラー',
+  })
+  @ApiConflictResponse({
+    description: 'メールアドレスの重複エラー',
+  })
+  @ApiInternalServerErrorResponse({
+    description: 'DBサーバ接続エラー',
+  })
+  async signUp(@Body(ValidationPipe) signUpUserDto: SignUpUserDto) {
+    return await this.authService.signUp(signUpUserDto);
+  }
 
   // controllerの処理の前にlocal.strategy.tsのvalidateの処理を実行する
   // UseGuards(LocalAuthGuard)でlocal.strategyに処理を渡すようになる
@@ -66,10 +64,8 @@ export class AuthController {
   })
   async signIn(
     @Body(ValidationPipe) signInUserDto: SignInUserDto,
-    @Request() req: { user: User },
+    // @Request() req: { user: User },
   ) {
-    console.log('aaa');
-    console.log(req.user);
-    return this.authService.signIn(signInUserDto);
+    return await this.authService.signIn(signInUserDto);
   }
 }

@@ -24,6 +24,7 @@ export class UserRepository extends Repository<User> {
 
     try {
       await user.save();
+      return user;
     } catch (err) {
       if (err.code === 'ER_DUP_ENTRY') {
         throw new ConflictException('メールアドレスが登録済みです');

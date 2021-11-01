@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { PassportModule } from '@nestjs/passport';
 /* modules */
 import { UsersModule } from '../users/users.module';
+import { AuthModule } from '../auth/auth.module';
 /* services */
 import { TodosService } from './todos.service';
 /* controllers */
@@ -14,7 +14,7 @@ import { JwtStrategy } from '../common/jwt/strategy/jwt.strategy';
 
 @Module({
   // repositoryをcontroller, serviceで呼び出すための設定
-  imports: [UsersModule, TypeOrmModule.forFeature([TodoRepository])],
+  imports: [TypeOrmModule.forFeature([TodoRepository])],
   controllers: [TodosController],
   providers: [TodosService],
 })

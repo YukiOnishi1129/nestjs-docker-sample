@@ -202,6 +202,27 @@ paths:
           description: 指定のタスクが存在しない
       tags: *ref_1
       security: *ref_2
+  /api/auth/sign_up:
+    post:
+      operationId: AuthController_signUp
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignUpUserDto'
+      responses:
+        '201':
+          description: ユーザー登録完了
+        '400':
+          description: 入力値のフォーマットエラー
+        '409':
+          description: メールアドレスの重複エラー
+        '500':
+          description: DBサーバ接続エラー
+      tags: &ref_3
+        - auth
   /api/auth/sign_in:
     post:
       operationId: AuthController_signIn
@@ -221,8 +242,7 @@ paths:
                 type: string
         '401':
           description: メールアドレスまたはパスワードが異なることによるログインエラー
-      tags:
-        - auth
+      tags: *ref_3
 info:
   title: API description
   description: ''
@@ -246,7 +266,7 @@ components:
           example: test1@gmail.com
         password:
           type: string
-          example: hogehoge
+          example: password
           minLength: 6
           maxLength: 25
       required:

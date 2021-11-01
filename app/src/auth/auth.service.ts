@@ -29,7 +29,26 @@ export class AuthService {
       email: user.email,
     };
     // jwtアクセストークンを作成し返却
-    // return await this.jwtSecret.signAsync(payload);
-    return this.jwtSecret.sign(payload);
+    return {
+      accessToken: this.jwtSecret.sign(payload),
+    };
+  }
+
+  /**
+   * ユーザー新規登録
+   * @param {SignUpUserDto} signUpUserDto
+   * @returns
+   */
+  async signUp(signUpUserDto: SignUpUserDto) {
+    const user = await this.userRepository.createUser(signUpUserDto);
+
+    const payload: JwtPayload = {
+      userId: user.id,
+      email: user.email,
+    };
+    // jwtアクセストークンを作成し返却
+    return {
+      accessToken: this.jwtSecret.sign(payload),
+    };
   }
 }
