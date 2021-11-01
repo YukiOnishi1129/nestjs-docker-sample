@@ -3,6 +3,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 /* dto */
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
+import {
+  FindTodoListResponseDto,
+  FindTodoResponseDto,
+} from './dto/find-todo.dto';
 /* repositories */
 import { TodoRepository } from './repositories/todo.repository';
 
@@ -27,11 +31,32 @@ export class TodosService {
    * Todo全取得処理
    * @returns
    */
-  async findAll(userId: number) {
-    return await this.todoRepository.find({
+  async findAll(userId: number): Promise<FindTodoListResponseDto> {
+    const dataList = await this.todoRepository.find({
       relations: ['user'],
       where: [{ userId: userId }],
     });
+
+    const todoList = dataList.map((todo) => {
+      delete todo.user.password;
+      return {
+        id: todo.id,
+        title: todo.title,
+        userId: todo.userId,
+        createdAt: todo.createdAt,
+        updatedAt: todo.updatedAt,
+        user: {
+          id: todo.user.id,
+          email: todo.user.email,
+          createdAt: todo.user.createdAt,
+          updatedAt: todo.user.updatedAt,
+        },
+      };
+    });
+
+    return {
+      todos: todoList,
+    };
   }
 
   /**

@@ -257,52 +257,30 @@ components:
         - userId
         - createdAt
         - updatedAt
-    Todo:
+    TodoUserResponse:
       type: object
       properties:
         id:
-          type: number
-        title:
           type: string
-        userId:
-          type: number
+          example: 1
+        email:
+          type: string
+          example: サンプル
+          minLength: 2
+          maxLength: 25
         createdAt:
           format: date-time
           type: string
+          example: '2021-10-28T08:38:14.237Z'
         updatedAt:
           format: date-time
           type: string
+          example: '2021-10-28T08:38:14.237Z'
       required:
         - id
-        - title
-        - userId
+        - email
         - createdAt
         - updatedAt
-    FindTodoListResponseDto:
-      type: object
-      properties:
-        todos:
-          example:
-            - id: 1
-              title: タスク1
-              userId: 1
-              createdAt: '2021-10-28T08:38:14.237Z'
-              updatedAt: '2021-10-28T08:38:14.237Z'
-            - id: 2
-              title: タスク2
-              userId: 1
-              createdAt: '2021-10-28T08:38:14.237Z'
-              updatedAt: '2021-10-28T08:38:14.237Z'
-            - id: 3
-              title: タスク3
-              userId: 1
-              createdAt: '2021-10-28T08:38:14.237Z'
-              updatedAt: '2021-10-28T08:38:14.237Z'
-          type: array
-          items:
-            $ref: '#/components/schemas/Todo'
-      required:
-        - todos
     FindTodoResponseDto:
       type: object
       properties:
@@ -318,17 +296,68 @@ components:
           type: string
           example: 1
         createdAt:
+          format: date-time
           type: string
           example: '2021-10-28T08:38:14.237Z'
         updatedAt:
+          format: date-time
           type: string
           example: '2021-10-28T08:38:14.237Z'
+        user:
+          example:
+            id: 1
+            email: test@gmail.com
+            createdAt: '2021-10-28T08:38:14.237Z'
+            updatedAt: '2021-10-28T08:38:14.237Z'
+          allOf:
+            - $ref: '#/components/schemas/TodoUserResponse'
       required:
         - id
         - title
         - userId
         - createdAt
         - updatedAt
+        - user
+    FindTodoListResponseDto:
+      type: object
+      properties:
+        todos:
+          example:
+            - id: 1
+              title: タスク1
+              userId: 1
+              createdAt: '2021-10-28T08:38:14.237Z'
+              updatedAt: '2021-10-28T08:38:14.237Z'
+              user:
+                id: 1
+                email: test@gmail.com
+                createdAt: '2021-10-28T08:38:14.237Z'
+                updatedAt: '2021-10-28T08:38:14.237Z'
+            - id: 2
+              title: タスク2
+              userId: 1
+              createdAt: '2021-10-28T08:38:14.237Z'
+              updatedAt: '2021-10-28T08:38:14.237Z'
+              user:
+                id: 1
+                email: test@gmail.com
+                createdAt: '2021-10-28T08:38:14.237Z'
+                updatedAt: '2021-10-28T08:38:14.237Z'
+            - id: 3
+              title: タスク3
+              userId: 1
+              createdAt: '2021-10-28T08:38:14.237Z'
+              updatedAt: '2021-10-28T08:38:14.237Z'
+              user:
+                id: 1
+                email: test@gmail.com
+                createdAt: '2021-10-28T08:38:14.237Z'
+                updatedAt: '2021-10-28T08:38:14.237Z'
+          type: array
+          items:
+            $ref: '#/components/schemas/FindTodoResponseDto'
+      required:
+        - todos
     UpdateTodoDto:
       type: object
       properties:

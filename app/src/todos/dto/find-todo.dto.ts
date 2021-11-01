@@ -1,12 +1,53 @@
 import {
   IsNotEmpty,
   IsNumber,
+  IsEmail,
   IsString,
   MinLength,
   MaxLength,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Todo } from '../entities/todo.entity';
+
+export class TodoUserResponse {
+  @ApiProperty({
+    example: 1,
+    type: String,
+  })
+  @IsNumber()
+  @IsNotEmpty()
+  id: number;
+
+  @ApiProperty({
+    example: 'サンプル',
+    type: String,
+    minLength: 2,
+    maxLength: 25,
+  })
+  @ApiProperty({
+    example: 'test1@gmail.com',
+    type: String,
+  })
+  @IsEmail()
+  @IsNotEmpty()
+  email: string;
+
+  @ApiProperty({
+    example: '2021-10-28T08:38:14.237Z',
+    type: Date,
+  })
+  @IsString()
+  @IsNotEmpty()
+  createdAt: Date;
+
+  @ApiProperty({
+    example: '2021-10-28T08:38:14.237Z',
+    type: Date,
+  })
+  @IsString()
+  @IsNotEmpty()
+  updatedAt: Date;
+}
 
 /**
  * FindTodoResponseDto
@@ -42,7 +83,7 @@ export class FindTodoResponseDto {
 
   @ApiProperty({
     example: '2021-10-28T08:38:14.237Z',
-    type: String,
+    type: Date,
   })
   @IsString()
   @IsNotEmpty()
@@ -50,11 +91,23 @@ export class FindTodoResponseDto {
 
   @ApiProperty({
     example: '2021-10-28T08:38:14.237Z',
-    type: String,
+    type: Date,
   })
   @IsString()
   @IsNotEmpty()
   updatedAt: Date;
+
+  @ApiProperty({
+    example: {
+      id: 1,
+      email: 'test@gmail.com',
+      createdAt: '2021-10-28T08:38:14.237Z',
+      updatedAt: '2021-10-28T08:38:14.237Z',
+    },
+    type: TodoUserResponse,
+  })
+  @IsNotEmpty()
+  user: TodoUserResponse;
 }
 
 /**
@@ -62,7 +115,7 @@ export class FindTodoResponseDto {
  */
 export class FindTodoListResponseDto {
   @ApiProperty({
-    type: [Todo],
+    type: [FindTodoResponseDto],
     example: [
       {
         id: 1,
@@ -70,6 +123,12 @@ export class FindTodoListResponseDto {
         userId: 1,
         createdAt: '2021-10-28T08:38:14.237Z',
         updatedAt: '2021-10-28T08:38:14.237Z',
+        user: {
+          id: 1,
+          email: 'test@gmail.com',
+          createdAt: '2021-10-28T08:38:14.237Z',
+          updatedAt: '2021-10-28T08:38:14.237Z',
+        },
       },
       {
         id: 2,
@@ -77,6 +136,12 @@ export class FindTodoListResponseDto {
         userId: 1,
         createdAt: '2021-10-28T08:38:14.237Z',
         updatedAt: '2021-10-28T08:38:14.237Z',
+        user: {
+          id: 1,
+          email: 'test@gmail.com',
+          createdAt: '2021-10-28T08:38:14.237Z',
+          updatedAt: '2021-10-28T08:38:14.237Z',
+        },
       },
       {
         id: 3,
@@ -84,8 +149,14 @@ export class FindTodoListResponseDto {
         userId: 1,
         createdAt: '2021-10-28T08:38:14.237Z',
         updatedAt: '2021-10-28T08:38:14.237Z',
+        user: {
+          id: 1,
+          email: 'test@gmail.com',
+          createdAt: '2021-10-28T08:38:14.237Z',
+          updatedAt: '2021-10-28T08:38:14.237Z',
+        },
       },
     ],
   })
-  todos: Todo[];
+  todos: FindTodoResponseDto[];
 }

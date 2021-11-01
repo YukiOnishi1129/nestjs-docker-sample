@@ -74,12 +74,8 @@ export class TodosController {
   async findAll(
     @Request() req: { user: JwtPayload },
     // @GetUser() user: User,
-  ): Promise<Todo[]> {
-    const todoList = await this.todosService.findAll(req.user.userId);
-    return todoList.map((todo) => {
-      delete todo.user.password;
-      return todo;
-    });
+  ): Promise<FindTodoListResponseDto> {
+    return await this.todosService.findAll(req.user.userId);
   }
 
   @Get(':id')
