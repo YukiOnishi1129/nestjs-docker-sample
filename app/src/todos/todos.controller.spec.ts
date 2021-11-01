@@ -1,19 +1,10 @@
-import { Request } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { TypeOrmModule, getRepositoryToken } from '@nestjs/typeorm';
-
 /* controllers */
 import { TodosController } from './todos.controller';
 /* services */
 import { TodosService } from './todos.service';
-/* repositories */
-import { TodoRepository } from './repositories/todo.repository';
 /* entities */
 import { Todo } from './entities/todo.entity';
-/* dto */
-import { FindTodoListResponseDto } from './dto/find-todo.dto';
-/* interface */
-import { JwtPayload } from '../common/jwt/interfaces/jwt-payload.interface';
 
 describe('TodosController', () => {
   let todoController: TodosController;

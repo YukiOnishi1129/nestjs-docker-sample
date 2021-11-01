@@ -7,7 +7,6 @@ import { EntityRepository, Repository } from 'typeorm';
 import { Todo } from '../entities/todo.entity';
 /* dto */
 import { CreateTodoDto } from '../dto/create-todo.dto';
-import { FindTodoListResponseDto } from '../dto/find-todo.dto';
 
 // Repository層でDBデータの操作を行う
 @EntityRepository(Todo)
@@ -21,8 +20,6 @@ export class TodoRepository extends Repository<Todo> {
     const todo = await this.findOne({ id });
 
     if (!todo) throw new NotFoundException('そのタスクは存在しません。');
-
-    console.log(todo);
     return todo;
   }
 
