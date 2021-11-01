@@ -10,7 +10,7 @@ import { TodosController } from './todos.controller';
 /* repositories */
 import { TodoRepository } from './repositories/todo.repository';
 /* strategy */
-import { JwtStrategy } from '../users/strategy/jwt.strategy';
+import { JwtStrategy } from '../common/jwt/strategy/jwt.strategy';
 
 @Module({
   // repositoryをcontroller, serviceで呼び出すための設定

@@ -202,6 +202,27 @@ paths:
           description: 指定のタスクが存在しない
       tags: *ref_1
       security: *ref_2
+  /api/auth/sign_in:
+    post:
+      operationId: AuthController_signIn
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignInUserDto'
+      responses:
+        '200':
+          description: ユーザーログイン完了
+          content:
+            application/json:
+              schema:
+                type: string
+        '401':
+          description: メールアドレスまたはパスワードが異なることによるログインエラー
+      tags:
+        - auth
 info:
   title: API description
   description: ''
@@ -239,7 +260,7 @@ components:
           example: test1@gmail.com
         password:
           type: string
-          example: hogehoge
+          example: password
           minLength: 6
           maxLength: 25
       required:

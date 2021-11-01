@@ -9,7 +9,7 @@ import * as bcrypt from 'bcrypt';
 import { User } from '../entities/user.entity';
 /* dto */
 import { SignUpUserDto } from '../dto/sign-up-user.dto';
-import { SignInUserDto } from '../dto/sign-in-user.dto';
+import { SignInUserDto } from '../../auth/dto/sign-in-user.dto';
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {
